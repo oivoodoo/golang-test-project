@@ -7,7 +7,8 @@ import (
 	"os"
 	"strings"
 	html "html/template"
-	/*"fmt"*/
+	"github.com/shaoshing/train"
+	"fmt"
 )
 
 type TemplateLoader struct {
@@ -59,14 +60,19 @@ func (loader *TemplateLoader) Refresh() *Error {
 				return nil
 			}
 
+			fmt.Println("Setting up templates...")
 			content := string(fileBytes)
-			template, err := html.New(templateName).Parse(content)
+			template := html.New(templateName)
+			template.Funcs(train.HelperFuncs)
+			html, err := template.Parse(content)
+			fmt.Println("Done setting up templates...")
+
 			if err != nil {
 				ERROR.Add(err.Error())
 				return nil
 			}
 
-			loader.templates[templateName] = NewTemplate(templateName, content, template)
+			loader.templates[templateName] = NewTemplate(templateName, content, html)
 
 			return nil
 		})
@@ -101,4 +107,3 @@ func NewTemplate(name string, content string, template *html.Template) Template 
 		template: template,
 	})
 }
-

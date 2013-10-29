@@ -8,12 +8,9 @@ import (
 func main() {
 	defer func() {
 		fmt.Println("Panic!")
-		/*for _, message := range MusicServer.ERROR {*/
-		/*}*/
 	}()
 
 	fmt.Println("Starting server...")
 	MusicServer.Server()
 	fmt.Println("Shutdown...")
 }
-
