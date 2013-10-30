@@ -1,1 +1,1 @@
-//= require app
+//= require javascripts/app
